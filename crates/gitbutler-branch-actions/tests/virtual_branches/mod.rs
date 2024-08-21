@@ -2,6 +2,7 @@ use std::{fs, path, path::PathBuf, str::FromStr};
 
 use gitbutler_branch::BranchCreateRequest;
 use gitbutler_branch_actions::VirtualBranchActions;
+use gitbutler_branch_actions::GITBUTLER_WORKSPACE_COMMIT_TITLE;
 use gitbutler_error::error::Marker;
 use gitbutler_project::{self as projects, Project, ProjectId};
 use gitbutler_reference::Refname;
