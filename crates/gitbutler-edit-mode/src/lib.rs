@@ -9,7 +9,7 @@ use gitbutler_command_context::CommandContext;
 use gitbutler_commit::{commit_ext::CommitExt, commit_headers::HasCommitHeaders};
 use gitbutler_operating_modes::{
     read_edit_mode_metadata, write_edit_mode_metadata, EditModeMetadata, EDIT_BRANCH_REF,
-    INTEGRATION_BRANCH_REF,
+    WORKSPACE_BRANCH_REF,
 };
 use gitbutler_project::access::WorktreeWritePermission;
 use gitbutler_reference::{ReferenceName, Refname};
@@ -202,14 +202,14 @@ pub(crate) fn save_and_return_to_workspace(
         )
         .context("Failed to reference new commit branch head")?;
 
-    // Move back to gitbutler/integration and restore stashed changes
+    // Move back to gitbutler/workspace and restore stashed changes
     {
         repository
-            .set_head(INTEGRATION_BRANCH_REF)
+            .set_head(WORKSPACE_BRANCH_REF)
             .context("Failed to set head reference")?;
         repository
             .checkout_head(Some(CheckoutBuilder::new().force().remove_untracked(true)))
-            .context("Failed to checkout gitbutler/integration")?;
+            .context("Failed to checkout gitbutler/workspace")?;
 
         virtual_branch.head = new_branch_head;
         virtual_branch.updated_timestamp_ms = gitbutler_time::time::now_ms();

@@ -30,7 +30,7 @@ pub trait RepositoryExt {
     /// disk when doing merges.
     /// Note that these written objects don't persist and will vanish with the returned instance.
     fn in_memory_repo(&self) -> Result<git2::Repository>;
-    /// Fetches the integration commit from the gitbutler/integration branch
+    /// Fetches the integration commit from the gitbutler/workspace branch
     fn integration_commit(&self) -> Result<git2::Commit<'_>>;
     /// Takes a CommitBuffer and returns it after being signed by by your git signing configuration
     fn sign_buffer(&self, buffer: &CommitBuffer) -> Result<BString>;
@@ -42,7 +42,7 @@ pub trait RepositoryExt {
     /// Based on the index, add all data similar to `git add .` and create a tree from it, which is returned.
     fn get_wd_tree(&self) -> Result<Tree>;
 
-    /// Returns the `gitbutler/integration` branch if the head currently points to it, or fail otherwise.
+    /// Returns the `gitbutler/workspace` branch if the head currently points to it, or fail otherwise.
     /// Use it before any modification to the repository, or extra defensively each time the
     /// integration is needed.
     ///
@@ -138,11 +138,11 @@ impl RepositoryExt for git2::Repository {
 
     fn integration_ref_from_head(&self) -> Result<git2::Reference<'_>> {
         let head_ref = self.head().context("BUG: head must point to a reference")?;
-        if head_ref.name_bytes() == b"refs/heads/gitbutler/integration" {
+        if head_ref.name_bytes() == b"refs/heads/gitbutler/workspace" {
             Ok(head_ref)
         } else {
             Err(anyhow!(
-                "Unexpected state: cannot perform operation on non-integration branch"
+                "Unexpected state: cannot perform operation on non-workspace branch"
             ))
         }
     }

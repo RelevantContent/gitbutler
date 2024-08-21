@@ -76,7 +76,7 @@ pub fn list_remote_branches(ctx: &CommandContext) -> Result<Vec<RemoteBranch>> {
                 && branch.name.remote() == Some(default_target.branch.remote());
 
             if !branch_is_trunk
-                && branch.name.branch() != Some("gitbutler/integration")
+                && branch.name.branch() != Some("gitbutler/workspace")
                 && branch.name.branch() != Some("gitbutler/target")
             {
                 remote_branches.push(branch);
