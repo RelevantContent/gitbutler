@@ -1,10 +1,13 @@
 pub mod commands {
     use anyhow::{Context, Result};
+    use gitbutler_command_context::CommandContext;
+    use gitbutler_diff::{workdir, FileDiff};
     use gitbutler_project as projects;
     use gitbutler_project::ProjectId;
     use gitbutler_repo::RepoCommands;
     use gix::progress::Discard;
-    use std::path::Path;
+    use std::collections::HashMap;
+    use std::path::{Path, PathBuf};
     use std::sync::atomic::AtomicBool;
     use tauri::State;
     use tracing::instrument;
@@ -59,5 +62,22 @@ pub mod commands {
             .main_worktree(Discard, &should_interrupt)
             .context("Failed to checkout main worktree")?;
         Ok(())
+    }
+
+    #[tauri::command(async)]
+    pub fn get_uncommited_files(
+        projects: State<'_, projects::Controller>,
+        id: ProjectId,
+    ) -> Result<HashMap<PathBuf, FileDiff>, Error> {
+        let project = projects.get(id)?;
+        let context = CommandContext::open(&project)?;
+        let repository = context.repository();
+        let head_commit = repository
+            .head()
+            .context("Failed to get head")?
+            .peel_to_commit()
+            .context("Failed to get head commit")?;
+
+        workdir(repository, &head_commit.id()).map_err(Into::into)
     }
 }
