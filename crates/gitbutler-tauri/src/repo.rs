@@ -1,14 +1,11 @@
 pub mod commands {
     use anyhow::{Context, Result};
     use gitbutler_branch_actions::{RemoteBranchFile, VirtualBranchActions};
-    use gitbutler_command_context::CommandContext;
-    use gitbutler_diff::{workdir, FileDiff};
     use gitbutler_project as projects;
     use gitbutler_project::ProjectId;
     use gitbutler_repo::RepoCommands;
     use gix::progress::Discard;
-    use std::collections::HashMap;
-    use std::path::{Path, PathBuf};
+    use std::path::Path;
     use std::sync::atomic::AtomicBool;
     use tauri::State;
     use tracing::instrument;

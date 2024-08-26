@@ -2124,6 +2124,7 @@ dependencies = [
  "git2",
  "git2-hooks",
  "gitbutler-branch",
+ "gitbutler-cherry-pick",
  "gitbutler-command-context",
  "gitbutler-commit",
  "gitbutler-diff",
@@ -2157,6 +2158,15 @@ dependencies = [
  "tracing",
  "url",
  "urlencoding",
+]
+
+[[package]]
+name = "gitbutler-cherry-pick"
+version = "0.0.0"
+dependencies = [
+ "anyhow",
+ "git2",
+ "gitbutler-commit",
 ]
 
 [[package]]
@@ -2219,6 +2229,7 @@ dependencies = [
  "bstr",
  "diffy",
  "git2",
+ "gitbutler-cherry-pick",
  "gitbutler-command-context",
  "gitbutler-serde",
  "hex",
@@ -2236,14 +2247,17 @@ dependencies = [
  "git2",
  "gitbutler-branch",
  "gitbutler-branch-actions",
+ "gitbutler-cherry-pick",
  "gitbutler-command-context",
  "gitbutler-commit",
+ "gitbutler-diff",
  "gitbutler-operating-modes",
  "gitbutler-oplog",
  "gitbutler-project",
  "gitbutler-reference",
  "gitbutler-repo",
  "gitbutler-time",
+ "serde",
 ]
 
 [[package]]
@@ -2403,6 +2417,7 @@ dependencies = [
  "bstr",
  "git2",
  "gitbutler-branch",
+ "gitbutler-cherry-pick",
  "gitbutler-command-context",
  "gitbutler-commit",
  "gitbutler-config",
