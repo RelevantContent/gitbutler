@@ -1,5 +1,6 @@
 pub mod commands {
     use anyhow::{Context, Result};
+    use gitbutler_branch_actions::{RemoteBranchFile, VirtualBranchActions};
     use gitbutler_command_context::CommandContext;
     use gitbutler_diff::{workdir, FileDiff};
     use gitbutler_project as projects;
@@ -68,16 +69,9 @@ pub mod commands {
     pub fn get_uncommited_files(
         projects: State<'_, projects::Controller>,
         id: ProjectId,
-    ) -> Result<HashMap<PathBuf, FileDiff>, Error> {
+    ) -> Result<Vec<RemoteBranchFile>, Error> {
         let project = projects.get(id)?;
-        let context = CommandContext::open(&project)?;
-        let repository = context.repository();
-        let head_commit = repository
-            .head()
-            .context("Failed to get head")?
-            .peel_to_commit()
-            .context("Failed to get head commit")?;
 
-        workdir(repository, &head_commit.id()).map_err(Into::into)
+        Ok(VirtualBranchActions.get_uncommited_files(&project)?)
     }
 }
