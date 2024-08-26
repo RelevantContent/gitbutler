@@ -76,6 +76,7 @@
 	role="option"
 	aria-selected={selected}
 	tabindex="-1"
+	data-testid={'file-' + file.path}
 	on:click
 	on:keydown
 	on:dragstart={async () => {
